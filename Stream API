@@ -3,3 +3,7 @@
 //BinaryOperator                     reduce      <T>         <R>               apply(T,U)
 //Predicate                          filter      <T>         boolean           test(T)
 //Consumer                           forEach     <T>         void              accept(T) 
+
+
+Terminal Mehods : reduce(), findFirst()
+Intermidate Methods :map(), filter()
