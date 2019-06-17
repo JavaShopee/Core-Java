@@ -1,0 +1,5 @@
+//SAM             Method      Generics    RT       override
+//Function        map         <T,R>       <R>      apply(T) 
+//BinaryOperator  reduce      <T>         <R>      apply(T,U)
+//Predicate       filter      <T>         boolean  test(T)
+//Consumer        forEach     <T>         void     accept(t) 
