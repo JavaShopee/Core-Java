@@ -17,3 +17,6 @@ public class StaticDemo
         display();
     }
 }
+
+
+here display() is the static method.
