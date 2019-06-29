@@ -1,0 +1,29 @@
+public class MarkerDemo 
+{
+   public static void main(String[] args) throws CloneNotSupportedException 
+   {
+	   Azs obj = new Azs(20,"Sachin");
+	   Azs obj2 = (Azs)obj.clone();
+	   
+	   System.out.println(obj2.i);
+   }
+}
+
+//implelenting Cloneable interface, it is legal for clone() method to make a field-for-field copy of instances of that class
+//By convention, classes that implement this interface should override Object.clone() method
+class Azs implements Cloneable
+{
+	int i;
+	String str;
+	
+	public Azs(int i, String str) {
+		super();
+		this.i = i;
+		this.str = str;
+	}
+	
+	protected Object clone() throws CloneNotSupportedException
+	{
+		return super.clone();
+	}
+}
