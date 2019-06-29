@@ -13,12 +13,14 @@ public class SerilizeDemo
 	{
 	   Dfg obj = new Dfg(30, "Ravi");
 	   
+	   
+	   //Ser
 	   File file = new File("C:\\Users\\sachi\\Desktop\\sample.txt");
 	   FileOutputStream fos = new FileOutputStream(file);
 	   ObjectOutputStream oos = new ObjectOutputStream(fos);
 	   oos.writeObject(obj);
 	   
-	   
+	   //De
 	   FileInputStream fis = new FileInputStream(file);
 	   ObjectInputStream ois = new ObjectInputStream(fis);
 	   Dfg obj2 = (Dfg)ois.readObject();
