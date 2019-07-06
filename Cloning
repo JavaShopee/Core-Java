@@ -29,8 +29,6 @@ class Aat
 
 
 Deep Copy (2 objects 2 reference) copy individuals values
-
-
 public class CloningDemo 
 {
 	int i;
@@ -55,3 +53,6 @@ class Aat
 		obj1.j = obj.j;
 	}
 }
+
+
+Cloning : Deep Copy + Shallow Copy
