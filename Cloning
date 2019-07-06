@@ -55,4 +55,40 @@ class Aat
 }
 
 
-Cloning : Deep Copy + Shallow Copy
+Cloning : /* Deep Copy but looks like Shallow Copy */
+public class CloningDemo implements Cloneable
+{
+	int i;
+	int j;
+    public static void main(String[] args) throws CloneNotSupportedException 
+    {
+    	Aat aat = new Aat();
+    	aat.show();
+    }
+    
+	@Override
+	public String toString() {
+		return "CloningDemo [i=" + i + ", j=" + j + "]";
+	}
+	
+	protected Object clone() throws CloneNotSupportedException
+	{
+		return super.clone();
+	}
+}
+class Aat
+{
+	public void show() throws CloneNotSupportedException
+	{
+		CloningDemo  obj = new CloningDemo();
+		obj.i = 10;
+		obj.j = 20;
+		
+		CloningDemo  obj1 = (CloningDemo) obj.clone(); 
+		obj.i = 30;
+				
+		System.out.println(obj);		
+		System.out.println(obj1);		
+		
+	}
+}
