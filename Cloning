@@ -1,0 +1,57 @@
+Shallow Copy 
+
+A obj1 = obj(old obj) One Object and 2 reference
+
+public class CloningDemo 
+{
+	int i;
+	int j;
+    public static void main(String[] args) 
+    {
+    	Aat aat = new Aat();
+    	aat.show();
+    }
+}
+
+class Aat
+{
+	public void show()
+	{
+		CloningDemo  obj = new CloningDemo();
+		obj.i =10;
+		obj.j =20;
+		
+		CloningDemo  obj1 = obj;
+		System.out.println(obj1.i);
+		System.out.println(obj1.j);
+	}
+}
+
+
+Deep Copy (2 objects 2 reference) copy individuals values
+
+
+public class CloningDemo 
+{
+	int i;
+	int j;
+    public static void main(String[] args) 
+    {
+    	Aat aat = new Aat();
+    	aat.show();
+    }
+}
+
+class Aat
+{
+	public void show()
+	{
+		CloningDemo  obj = new CloningDemo();
+		obj.i =10;
+		obj.j =20;
+		
+		CloningDemo  obj1 = new CloningDemo();
+		obj1.i = obj.i;
+		obj1.j = obj.j;
+	}
+}
