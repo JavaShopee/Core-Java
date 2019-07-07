@@ -1,0 +1,361 @@
+Internal archtype webapp
+ 
+
+Client   Request  web.xml    Front Controller (handles all other controllers) –
+
+ Login Controller
+Logout 
+Add 
+Multiply
+Front Controller (called as Dispatcher Servlet) will be given my Spring MVC
+Separation of Concern: Controllers even don’t know which view technology you are using
+
+FC will maintain configuration file. Spring MVC gives us @Controller Annotation
+FC will get Data and View Name from controller, view tech (Themeleaf ,Velocity , FreeMarker, JSP) will fetch the data from controller
+DS  Call Add, Login...
+All controllers will be annotated with Annotation “@Controller”
+DS check the configuration file to check which controller to call
+Controller will send the model (data) and view to DS. That page will go to the client. As a client you are just interacting with DS.
+You just have to change the configuration file from JSP (view technology) to Themeleaf , Velocity , FreeMarker
+
+MCV  Model (Pojo) View ( JSP) Controller( Servlet)
+Pom.xml ( project object model)
+
+Normal MVC
+Request –> Web Server 
+Req will be processed by controller. Controller will ask the data from model. And display in view.
+
+Spring MVC
+Req - > FC  Multiple controllers
+AddController.class
+package com.sachin.web;
+
+import java.io.IOException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.springframework.stereotype.Controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class AddController extends HttpServlet{
+	
+	@RequestMapping("/add")
+	public ModelAndView add(HttpServletRequest request,HttpServletResponse response) throws IOException
+	{
+		int a = Integer.parseInt(request.getParameter("t1"));
+		int b = Integer.parseInt(request.getParameter("t2"));
+		
+		int c= a + b;
+		int d= c+10;
+		
+		System.out.println("Addition of numbers is " + c);
+		ModelAndView mv = new ModelAndView();
+		
+		mv.setViewName("display.jsp");
+		mv.addObject("result",c);
+		
+		return mv;
+		
+//		HttpSession session = request.getSession();
+//		session.setAttribute("name1", c);
+//		response.sendRedirect("display.jsp");
+	}
+
+}
+
+Index.html
+<html>
+<body>
+<form action="add" method="post">
+  
+   <input type ="text" name="t1"><br>
+   <input type ="text" name="t2"><br>
+   <input type ="submit">
+
+</form>
+</body>
+</html>
+
+Web.xml
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+  
+  
+  <servlet>
+     <servlet-name>DServ</servlet-name>
+     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+     <servlet-name>DServ</servlet-name>
+     <url-pattern>/</url-pattern>
+  </servlet-mapping>
+</web-app>
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1" isELIgnored="false"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<body>
+     Result of two add : ${result}
+</body>
+</html>
+DServ-servlet.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context 
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/mvc
+                           http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+                           
+ <context:annotation-config></context:annotation-config>                           
+ <context:component-scan base-package="com.sachin.web" />
+                           
+ </beans>
+
+
+AddController.class
+package com.sachin.web;
+
+import java.io.IOException;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class AddController extends HttpServlet{
+	
+	@RequestMapping("/add")
+	public ModelAndView add(@RequestParam("t1") int a,@RequestParam("t2") int b,HttpServletRequest request,HttpServletResponse response) throws IOException
+	{
+//		int a = Integer.parseInt(request.getParameter("t1"));
+//		int b = Integer.parseInt(request.getParameter("t2"));
+		
+		int c= a + b;
+		int d= c+10;
+		
+		System.out.println("Addition of numbers is " + c);
+		ModelAndView mv = new ModelAndView();
+		
+		mv.setViewName("display.jsp");
+		mv.addObject("result",c);
+		
+		return mv;
+		
+//		HttpSession session = request.getSession();
+//		session.setAttribute("name1", c);
+//		response.sendRedirect("display.jsp");
+	}
+
+}
+
+
+Annotation Based Configuration: 
+Replace web.xml with MyWebInitiliazer
+package com.sachin.web;
+
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+public class MyWebInitiliazer extends AbstractAnnotationConfigDispatcherServletInitializer {
+
+	@Override
+	protected Class<?>[] getRootConfigClasses() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected Class<?>[] getServletConfigClasses() {
+		return new Class[] {ConfigClass.class};
+	}
+
+	@Override
+	protected String[] getServletMappings() {
+		return new String[] {"/"};
+		
+		
+	}
+}
+
+DServ-servlet.xml with ConfigClass.class
+package com.sachin.web;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan({"com.sachin.web"})
+public class ConfigClass 
+{
+	
+
+	
+}
+
+InternalViewResolver
+package com.sachin.web;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+@Configuration
+@ComponentScan({"com.sachin.web"})
+public class ConfigClass 
+{
+	
+   public InternalResourceViewResolver viewResolver()
+   {
+	   InternalResourceViewResolver vr=  new InternalResourceViewResolver();
+	   vr.setSuffix(".jsp");
+	   vr.setPrefix("/webapp/");
+	   return vr;
+   }
+
+
+}
+
+response.setHeader(“cache-control”,”no-cache,no-control,must-revalidate”)
+                                                                                                                      
+2nd Revision:
+Normal MVC Vs Spring MVC:  You will be having FC(Dispatcher Servlet) that will manage all other controllers. Spring MVC will create FC for you.
+<servlet>
+        <servlet-name>dserv</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+        <servlet-name>dserv</servlet-name>
+        <url-pattern>/</url-pattern>
+</servlet-mapping>
+
+Spring MVC will provide you “@Controller” Annotation 
+Just need to mention in which package you has all your controllers
+*-servlet.xml
+
+DS will get 
+1.	Data 
+2.	View Name 
+Separation of Concerns: we can configure the display type in separate file. Controllers even don’t know which display technology the FC is using. 
+JSP, Themeleaf, Velocity , Freemarker
+
+    	
+
+Configuration files for dispatcher servlet
+dserv-servlet.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context 
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/mvc
+                           http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+                           
+ <context:annotation-config></context:annotation-config>                           
+ <context:component-scan base-package="com.sachin.web" />
+                           
+ </beans>
+<% %> scriptlet for normal java code
+<%= %>  Evaluation or println
+<%@Page %> directive
+<%! %> Declarative
+
+
+
+
+Replacement for dserv-servlet.xml
+The DS configuration file : 2 Annotations 
+@Configuration
+@ComponentScan(“package for all controllers”)
+
+Replcaement for Web.xml
+MyWebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer
+/ url pattern
+Config Class
+
+Replcaemnt for .jsp
+@Bean
+	public InternalResourceViewResolver viewResolver()
+	{
+		InternalResourceViewResolver irv = new InternalResourceViewResolver();
+		irv.setSuffix(".jsp");
+		irv.setPrefix("/WEB-INF/");
+		return irv;
+		
+	}
+
+
+
+
+The Later is Java Based Config
+
+
+
+package com.sachin.web;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class DemoController 
+{
+	@GetMapping(path="/add")
+	public ModelAndView showView(HttpServletRequest request, HttpServletResponse response)
+	{
+		int a = Integer.parseInt(request.getParameter("t1"));
+		int b = Integer.parseInt(request.getParameter("t2"));
+
+		ModelAndView mv  = new ModelAndView();
+		mv.setViewName("welcome.jsp");
+		mv.addObject("result",(a+b));
+		
+		return mv;
+		
+	}
+	
+}
+
+package com.sachin.web;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan({"com.sachin.web"})
+public class ConfigClass {
+
+}
+
+
