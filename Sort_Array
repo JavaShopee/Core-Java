@@ -22,3 +22,45 @@ public class SampleJavaP
 		}
 	}
 }
+
+
+
+
+
+Find duplicate string in strin array 
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+public class StringDemo 
+{
+    public static void main(String[] args) 
+    {
+    	String str = "I am am learning java java";
+    	
+    	Map<String, Integer> map = new HashMap<String, Integer>();
+        String[] str1 = str.split(" ");
+        for(String str2 : str1)
+        {
+        	if(map.get(str2) != null)
+        	{
+        		map.put(str2, map.get(str2) + 1); 
+        	}
+        	else
+        	{
+        		map.put(str2,1); 
+        	}
+        }
+        System.out.println(map);
+        Iterator<String> it = map.keySet().iterator();
+        while(it.hasNext())
+        {
+        	String str4 = it.next();
+        	if(map.get(str4) > 1)
+        	{
+        		System.out.println("Word " + str4 + " repeated " + map.get(str4) + " times");
+        	}
+        }
+    }
+}
