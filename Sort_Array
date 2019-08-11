@@ -64,3 +64,45 @@ public class StringDemo
         }
     }
 }
+
+
+
+Check for Duplicate characters 
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
+public class CharDemo {
+
+	public static void main(String[] args) {
+		String str1 = "Hello This is sample java code";
+		char[] ch1 = str1.toCharArray();
+		Map<Character,Integer> map = new HashMap<Character,Integer>();
+
+		for(char ch2 : ch1 )
+		{
+            if(map.get(ch2) != null)
+            {
+            	map.put(ch2, map.get(ch2) + 1);
+            }
+            else
+            {
+            	map.put(ch2, 1);
+            }
+			
+			
+		}
+		System.out.println(map);
+		Iterator<Character> it = map.keySet().iterator();
+		while(it.hasNext())
+		{
+			char ch3 = it.next();
+			if(map.get(ch3) > 1)
+			{
+				System.out.println(ch3 + " " + map.get(ch3));
+			}
+			
+		}
+	}
+}
