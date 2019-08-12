@@ -1,1 +1,58 @@
 Each obj has a unique memory address which will help the object class hascode() to generate unique hashcode for each objects.
+A good hashcode() should return a distinct integer for each obj.Two different objects can also have same hashcode.
+Like String "FB" and "Ea" have same hashcode.
+
+For the same object, hascode will be same during the execution of the program even if hascode is calculated multiple times.
+
+
+public class Human {
+	
+	private int id;
+	private String name;
+	
+	public Human(int id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+	@Override
+	public int hashCode() {
+		return id;
+	}
+}
+
+public class Test {
+	
+	public static void main(String[] args) {
+		Human h1 = new Human(101,"Sachin");
+		System.out.println(h1.hashCode());
+		
+		Human h2 = new Human(102,"Raj");
+		System.out.println(h2.hashCode());
+		
+		Human h3 = new Human(103,"Karan");
+		System.out.println(h3.hashCode());
+		
+		String str1 = new String("FB");
+		String str2 = new String("Ea");
+		
+		System.out.println(str1.hashCode());
+		System.out.println(str2.hashCode());
+		
+		
+	}
+	
+}
+
+
+output :
+
+101
+102
+103
+2236
+2236
+
+
+
+
