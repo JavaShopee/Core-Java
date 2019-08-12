@@ -1,0 +1,1 @@
+Each obj has a unique memory address which will help the object class hascode() to generate unique hashcode for each objects.
