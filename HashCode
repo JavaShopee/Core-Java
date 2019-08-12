@@ -53,6 +53,10 @@ output :
 2236
 2236
 
+==                      Reference or Identity comparision
+obj class equals        Reference comparision
+String class equals     Reference comparision
+
 
 
 
