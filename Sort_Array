@@ -33,6 +33,33 @@ public class SortArray {
 
 Find duplicate string in strin array 
 
+
+import java.util.HashSet;
+import java.util.Set;
+		
+public class DupsStr 
+{
+	public static void main(String[] args) 
+	{
+	   String str = "I am learning java and java home jsp am";
+	   	
+	   String str1[] = str.split(" ");
+	   Set<String> set= new HashSet<String>();
+
+	   for(String str2 : str1)
+	   {
+		   if(!set.add(str2))
+		   {
+			   System.out.println(str2);
+		   }
+	   }
+		
+	}
+}
+
+
+
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
