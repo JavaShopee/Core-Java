@@ -46,3 +46,25 @@ Students_Laptops
 Hibernate: alter table Students_Laptops add constraint FKfg1k9rpaemkbvb1o2xvfnlnyb foreign key (laps_lid) references Laptops (lid)
 
 *******************************************************************
+
+ @Entity
+public class Students {
+	
+	@Id
+	private int sid;
+	private String sname;
+	@OneToMany(mappedBy="stud")
+	private List<Laptops> laps;
+  
+  @Entity
+public class Laptops {
+	
+	@Id
+	private int lid;
+	private String lbrand;
+	@ManyToOne
+	private Students stud;
+	
+Hibernate: insert into Students (sname, sid) values (?, ?)
+Hibernate: insert into Laptops (lbrand, stud_sid, lid) values (?, ?, ?)
+ *****************************************************************
